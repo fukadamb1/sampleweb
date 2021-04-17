@@ -199,8 +199,12 @@ footer> p {
   .btn-container {
     padding-top: 2px;
   }
-  /* ヘッダー、メッセージ */
+  /* ヘッダー*/
   header, #msgtext {
     font-size: 24px;
+  }
+  /* メッセージテキスト*/
+  header, #msgtext {
+    font-size: 20px;
   }
 }
