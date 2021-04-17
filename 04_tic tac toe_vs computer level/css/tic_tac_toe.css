@@ -232,14 +232,12 @@ footer> p {
   .btn-container {
     padding-top: 2px;
   }
-
-  /* レベル設定エリア 2021/01/18 fukada-add*/
-  .level-container {
-    margin: 0px auto 20px;
-  }
-
-  /* ヘッダー、メッセージ */
+  /* ヘッダー*/
   header, #msgtext {
     font-size: 24px;
+  }
+  /* メッセージテキスト*/
+  header, #msgtext {
+    font-size: 20px;
   }
 }
