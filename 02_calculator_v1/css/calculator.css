@@ -71,7 +71,7 @@ input[type=number] {
 #calcType  {
   margin: 0.05em;
   padding: 0;
-  width: em;
+  width: 3em;
   line-height: 1.5em;
   font-size: 2em;
   text-align: left;
