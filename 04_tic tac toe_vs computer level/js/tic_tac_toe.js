@@ -24,11 +24,10 @@ const c_1 = document.getElementById("c_1");
 const c_2 = document.getElementById("c_2");
 const c_3 = document.getElementById("c_3");
 
-// levelの要素を取得　レベル設定エリア 2021/01/18 fukada-add
+// levelの要素を取得　レベル設定エリア 
 const level_1 = document.getElementById("level_1");
 const level_2 = document.getElementById("level_2");
 const level_3 = document.getElementById("level_3");
-// levelの要素を取得　レベル設定エリア 2021/01/18 fukada-end
 
 // NewGameボタン取得（しゅとく）
 const newgamebtn_display = document.getElementById("newgame-btn");
@@ -45,6 +44,8 @@ const line7 = JudgLine(squaresArray, ["a_1", "b_2", "c_3"]);
 const line8 = JudgLine(squaresArray, ["a_3", "b_2", "c_1"]);
 
 const lineArray = [line1, line2, line3, line4, line5, line6, line7, line8];
+
+const lineRandom = cornerLine(squaresArray, ["a_1", "a_3", "c_1", "c_3"]);
 
 let winningLine = null;
 
@@ -63,17 +64,16 @@ window.addEventListener("DOMContentLoaded",
     // メッセージ（最初はpenguinsのターンから）
     setMessage("pen-turn");
 
-    // squareがクリック可能かを判断するクラスを追加 fukada
+    // squareがクリック可能かを判断するクラスを追加
     squaresArray.forEach(function (square) {
       square.classList.add("js-clickable");
     });
 
-    LevelSetting(); // levelの要素を取得　レベル1設定 2021/01/18 fukada-add
+    LevelSetting(); // levelの要素を取得　レベル1設定
 
   }, false
 );
 
-// levelの要素を取得　レベル1設定 2021/01/18 fukada-add
 // **********************************************
 // レベル設定
 // **********************************************
@@ -141,7 +141,6 @@ function LevelSetting(level) {
     level_3.classList.add("level-non-selected");
   }
 }
-// levelの要素を取得　レベル1設定 2021/01/18 fukada-end
 // **********************************************
 // Win or Lose Judgment Lineを配列化
 // **********************************************
@@ -153,20 +152,30 @@ function JudgLine(targetArray, idArray) {
 }
 
 // **********************************************
+// corner Lineを配列化
+// **********************************************
+// JavaScriptでfilterを使う方法：https://techacademy.jp/magazine/15575
+function cornerLine(targetArray, idArray) {
+  return targetArray.filter(function(e) {
+    return (e.id === idArray[0] || e.id === idArray[1] || e.id === idArray[2] || e.id === idArray[3]);
+  });
+}
+
+// **********************************************
 // squareをクリックしたときにイベント発火（はっか）
 // **********************************************
 // クリックしたsquareに、penguinsかbearを表示。画像を表示したsquareはクリックできないようにする、win or lose Judgementの呼び出し
 squaresArray.forEach(function (square) {
   square.addEventListener('click', function () {
     if (counter===9) {
-      const levelBox = document.getElementById("levelBox"); //fukada
+      const levelBox = document.getElementById("levelBox"); 
       levelBox.classList.add("js-unclickable"); //ゲーム途中でlevelBoxをクリックできないようにする
     }
-    let gameOverFlg = isSelect(square);  // gameStatusを返却 fukada
+    let gameOverFlg = isSelect(square);  // gameStatusを返却
     
-    //GameOverではない場合、クマのターン（auto） fukada 
+    //GameOverではない場合、クマのターン（auto）
     if (gameOverFlg === "0") {
-      const squaresBox = document.getElementById("squaresBox"); //fukada
+      const squaresBox = document.getElementById("squaresBox");
       squaresBox.classList.add("js-unclickable"); //squares-boxをクリックできないようにする
       setTimeout(
         function () {
@@ -185,17 +194,17 @@ squaresArray.forEach(function (square) {
 //  ・win or lose 判定の呼び出し。
 // **********************************************
 function isSelect(selectSquare) {
-    let gameOverFlg = "0" // fukada
+    let gameOverFlg = "0"; 
     if (flag === "pen-flag") {
       selectSquare.classList.add("js-pen-checked"); //squareにはpenguinsを表示
       selectSquare.classList.add("js-unclickable"); //squareをクリックできないようにする
-      selectSquare.classList.remove("js-clickable"); //squareがクリック可能かを判断するクラスを削除 fukada
+      selectSquare.classList.remove("js-clickable"); //squareがクリック可能かを判断するクラスを削除
       
       // penguins win
       if (isWinner("penguins")) {
         setMessage("pen-win"); //display win message
         gameOver("penguins");
-        return gameOverFlg = "1"; // fukada
+        return gameOverFlg = "1";
       }
       setMessage("bear-turn");
       flag = "bear-flag";
@@ -203,12 +212,12 @@ function isSelect(selectSquare) {
     } else {
       selectSquare.classList.add("js-bear-checked");
       selectSquare.classList.add("js-unclickable");
-      selectSquare.classList.remove("js-clickable"); //squareがクリック可能かを判断するクラスを削除 fukada
+      selectSquare.classList.remove("js-clickable"); //squareがクリック可能かを判断するクラスを削除
       // white-bear win
       if (isWinner("bear")) {
         setMessage("bear-win");
         gameOver("bear");
-        return gameOverFlg = "1"; // fukada
+        return gameOverFlg = "1";
       }
       setMessage("pen-turn");
       flag = "pen-flag";
@@ -221,10 +230,10 @@ function isSelect(selectSquare) {
     if (counter === 0) {
       setMessage("draw");
       gameOver("draw");
-      return gameOverFlg = "1"; // fukada
+      return gameOverFlg = "1";
     }
     
-    return gameOverFlg = "0" // fukada
+    return gameOverFlg = "0"
 }
 // **********************************************
 // 勝敗判定（しょうはい　はんてい）
@@ -281,11 +290,7 @@ function setMessage(id) {
 // 実際に書いてみる！JavaScriptでforEachメソッドを使う方法【初心者向け】：https://techacademy.jp/magazine/14635
 // classListの使い方まとめ：https://qiita.com/tomokichi_ruby/items/2460c5902d19b81cace5
 function gameOver(status) {
-  // all square unclickable 2021/01/16 fukada-del
-  // squaresArray.forEach(function (square) {
-  //   square.classList.add("js-unclickable");
-  // });
-  squaresBox.classList.add("js-unclickable"); //2021/01/16 fukada-add squares-boxをクリックできないようにする
+  squaresBox.classList.add("js-unclickable"); //squares-boxをクリックできないようにする
   // display New Game button：display
   newgamebtn_display.classList.remove("js-hidden");
 
@@ -343,11 +348,11 @@ newgamebtn.addEventListener("click", function () {
       square.classList.remove("js-unclickable");
       square.classList.remove("js-pen_highLight");
       square.classList.remove("js-bear_highLight");
-      square.classList.add("js-clickable"); // squareがクリック可能かを判断するクラスを追加 fukada
+      square.classList.add("js-clickable"); // squareがクリック可能かを判断するクラスを追加
     });
 
-    squaresBox.classList.remove("js-unclickable"); //2021/01/16 fukada-add squares-boxをクリックできるようにする
-    levelBox.classList.remove("js-unclickable"); //2021/01/16 levelBoxをクリックできるようにする
+    squaresBox.classList.remove("js-unclickable"); //squares-boxをクリックできるようにする
+    levelBox.classList.remove("js-unclickable"); //levelBoxをクリックできるようにする
 
     setMessage("pen-turn");
     newgamebtn_display.classList.add("js-hidden");
@@ -359,20 +364,43 @@ newgamebtn.addEventListener("click", function () {
 // クマのターン 
 // **********************************************
 function bearTurn() {
-  // levelを取得 2021/01/18 fukada-add
+  // levelを取得 
   let level = sessionStorage.getItem("tic_tac_toe_access");
 
-  let bearTurnEnd = 0; //2021/01/18 fukada-add
+  let bearTurnEnd = 0;
 
-  if (level === "2" || level === "3") {
+  if (level === "1" || level === "2" || level === "3") { //レベル設定を変えたいときはこのロジックを修正する
     // クマのリーチ行をさがす
     bearTurnEnd = isBearReach();
   }
 
-  if (level === "3") {
+  if(bearTurnEnd === 0){
+    if (level === "2" || level === "3") { //レベル設定を変えたいときはこのロジックを修正する
     // ペンギンのリーチ行をさがす
-    if(bearTurnEnd === 0){
       bearTurnEnd = isPenReach();
+    }
+  }
+
+  if(bearTurnEnd === 0){
+    if (level === "2" || level === "3") { //レベル設定を変えたいときはこのロジックを修正する
+      // 真ん中のマス目b_2が空いていたら選ぶ
+      if (b_2.classList.contains("js-clickable")) {
+        isSelect(b_2);
+        bearTurnEnd = 1; // クマのターン終了
+      }
+    }
+  }
+
+  if(bearTurnEnd === 0){
+    if (level === "3") { //レベル設定を変えたいときはこのロジックを修正する
+      // 角のマス目a_1,a_3,c_1,c_3が空いていたら選ぶ
+      for (let square of lineRandom) {
+        if (square.classList.contains("js-clickable")) {
+          isSelect(square);
+          bearTurnEnd = 1; // クマのターン終了
+          break; // forのloopを終了
+        }
+      }
     }
   }
   
