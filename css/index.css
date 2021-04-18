@@ -56,14 +56,11 @@ h1 {
 }
 
 h2{
-    font: 1.5em Rajdhani;
-}
-
-h3 {
     padding-left: 0.5em;
     border-left: solid 0.5em darkgray;
     text-align: left;
 }
+
 /*****************************/
 /* ページ                    */
 /*****************************/
@@ -111,9 +108,9 @@ a:hover{
 }
 
 /*****************************/
-/* GAME, LESSON              */
+/* GAME                      */
 /*****************************/
-.game, .lesson {
+.game {
     display: flex;
         /*https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Flexible_Box_Layout*/
     flex-wrap:wrap;
@@ -123,6 +120,10 @@ a:hover{
     font-size: 0.7em;
 }
 
+/* width: 100%;で残りスペースを埋める */
+.spacer {
+    width: 100%;
+  }
 /*****************************/
 /* フッター                   */
 /*****************************/
@@ -136,4 +137,12 @@ footer> p {
     font: 1em Rajdhani;
     text-align: center;
     background: rgba(1, 24, 31, 0.7);
+}
+/*******************************************************/
+/* レスポンシブ対応　メディアクエリを使ってCSSを切り替える */
+/* https://www.design-memo.com/coding/css-media-queries */
+/* mobileのときのスタイル */
+/*******************************************************/
+@media screen and (max-width: 480px) {
+    /*  */
 }
