@@ -18,8 +18,8 @@ body{
   text-align: center;
   background-color:rgba(233, 168, 227, 0.6);
   background-blend-mode: soft-light;
-  /* background-image: url(../img/backimg.JPG);
-  background-size: cover; */
+  /* background-image: url(../img/backimg.JPG);*/
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -137,6 +137,10 @@ footer> p {
 /********************************************************/
 /* mobileのときのスタイル */
 @media screen and (max-width: 480px) {
+  body {  /*10秒台なら花火を打ち上げる add*/
+    background-position: center center;
+    background-size: auto 900px;
+  }
   .btn-container {
     margin: 0px 2px 20px;
     font-size: 1em;

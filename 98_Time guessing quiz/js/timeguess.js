@@ -9,7 +9,7 @@ const reset = document.getElementById("reset");
 let startTime;       // Startボタンクリック時の時刻
 let timeoutid;       // ID
 let stopTime = 0;    // Stopまでの経過時間
-
+let soundEndflag = "0"; // sound control
 
 // ボタンを"初期"状態とする
 setButtonStateInitial()
@@ -19,6 +19,12 @@ setButtonStateInitial()
 ////////////////////////
 start.addEventListener("click",
   function() {
+    // sound countrol
+    if(soundEndflag === "1") {
+      soundControl("end",""); 
+    }
+    soundControl("start", "sound/start.mp3"); //サウンド
+    soundEndflag = "1";
     // ボタンをタイマー"動作中"状態とする
     setButtonStateRunning();
     startTime = Date.now();
@@ -35,6 +41,22 @@ stop.addEventListener("click",
     setButtonStateStopped();
     clearTimeout(timeoutid); //setTimeout()でセットしたタイマーを解除する際に使用
     stopTime = Date.now() - startTime;
+    // sound countrol
+    if(soundEndflag === "1") {
+      soundControl("end",""); 
+    }
+    if(timer.textContent.substring(0, 5) === "00:10"){
+      soundControl("start","sound/stop2.mp3"); //サウンド
+      // backgroundの設定
+      const fireworks = document.getElementsByTagName("body");
+      fireworks[0].style.backgroundImage = "url('img/fireworks.gif')"; // 花火
+      fireworks[0].style.backgroundColor = "rgba(0, 0, 0, 0)";
+    }
+    else {
+      soundControl("start","sound/stop1.mp3"); //サウンド
+    }
+    soundEndflag = "1";
+
   },false
 );
 
@@ -43,10 +65,20 @@ stop.addEventListener("click",
 ////////////////////////
 reset.addEventListener("click",
   function() {
+    // sound countrol
+    if(soundEndflag === "1") {
+      soundControl("end",""); 
+    }
+    soundControl("start","sound/reset.mp3"); //サウンド
+    soundEndflag = "1";
     // ボタンを"初期"状態とする
     setButtonStateInitial()
     timer.textContent = "00:00.000";
     stopTime = 0;
+    // backgroundを元に戻す
+    const fireworks = document.getElementsByTagName("body");
+    fireworks[0].style.backgroundImage = "";
+    fireworks[0].style.backgroundColor = "rgba(233, 168, 227, 0.6)";
   }
 );
 
@@ -97,4 +129,18 @@ function setButtonStateStopped() {
   start.classList.add("js-unclickable");
   stop.classList.add("js-unclickable");
   reset.classList.remove("js-unclickable");
+}
+
+// sound control
+let w_sound
+let music
+function soundControl(status, w_sound){
+  if(status === "start") {
+      music = new Audio(w_sound);
+      music.currentTime = 0;
+      music.play();
+  } else if(status === "end") {
+      music.pause();
+      music.currentTime = 0;
+  }
 }
