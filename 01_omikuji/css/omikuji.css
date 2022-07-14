@@ -71,7 +71,7 @@ header {
   justify-content: center;
   user-select: none; /*ユーザーが文章を範囲選択できるかどうかを制御*/
   cursor: pointer;   /*マウスカーソルの種類を設定*/
-  transition: 1s;
+  /* transition: 1s; */
 }
 
 #btn1:hover {

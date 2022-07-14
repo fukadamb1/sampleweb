@@ -1,5 +1,4 @@
 "use strict";
-
 window.addEventListener("DOMContentLoaded",
   function() {
     // ページ本体が読み込まれたタイミングで実行するコード
@@ -37,6 +36,7 @@ window.addEventListener("DOMContentLoaded",
 
 );
 
+let soundEndflag = "0"; // sound control
 // おみくじの画像、おみくじのテキスト
 const btn1 = document.getElementById("btn1");
 const omikujiText = document.getElementById("omikujiText");
@@ -44,6 +44,10 @@ const omikujiTextImage = document.getElementById("omikujiTextImage");
 
 btn1.addEventListener("click",
   function() {
+    // sound countrol
+    if(soundEndflag === "1") {
+      soundControl("end",""); 
+    }
     // おみくじのテキスト画像対応…おみくじの種類を６→５種類にした。（おみくじの画像が５種類しかないから）
     let resultText = ["img/daikichi.png","img/chukichi.png","img/syokichi.png","img/suekichi.png","img/daikyo.png",];
     let resultMaxSpeed = [10,10,8,5,5];
@@ -63,6 +67,11 @@ btn1.addEventListener("click",
       }, false
     );
 
+    // sound control
+    w_sound = resultSound[n];
+    soundControl("start", w_sound); //サウンド
+    soundEndflag = "1";
+    
     // snowfall stop
     $(document).snowfall("clear");
 
@@ -83,12 +92,19 @@ btn1.addEventListener("click",
 
     );
 
-    // HTML5のaudioは一旦playをすると終了するまで音が鳴らない仕様である。
-    // これではクリックを連続で行った場合に、現在再生されている音が終了するまで
-    // 次の音が鳴らないため「currentTime」で開始時間をリセットする。
-    let music = new Audio(resultSound[n]);
-    music.currentTime = 0;
-    music.play();  // 再生
-
   }, false
 );
+
+// sound control
+let w_sound
+let music
+function soundControl(status, w_sound){
+  if(status === "start") {
+      music = new Audio(w_sound);
+      music.currentTime = 0;
+      music.play();
+  } else if(status === "end") {
+      music.pause();
+      music.currentTime = 0;
+  }
+}

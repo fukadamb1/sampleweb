@@ -1,9 +1,8 @@
 "use strict";
-
 window.addEventListener("DOMContentLoaded",
   function() {
     // ページ本体が読み込まれたタイミングで実行するコード
-
+    
     // ヘッダーのテキストエフェクト
     $("header").textillate({
       loop: false, // ループのオンオフ
@@ -18,12 +17,12 @@ window.addEventListener("DOMContentLoaded",
         shuffle: true            // trueは文字を順番にではなく、ランダムに
       }
     });
-        
+    
     // おみくじボタン（id="btn1"）　ボヤァと表示させる
     $(function(){
       ScrollReveal().reveal("#btn1", { duration: 9000 });
     });
-
+    
     setTimeout(
       function () {
         //ポップアップメッセージ
@@ -32,17 +31,22 @@ window.addEventListener("DOMContentLoaded",
       }, 
       "3000"
     );
-
+      
   }, false
-
+    
 );
 
+let soundEndflag = "0"; // sound control
 // おみくじの画像、おみくじのテキスト
 const btn1 = document.getElementById("btn1");
 const omikujiText = document.getElementById("omikujiText");
 
 btn1.addEventListener("click",
-  function() {
+function() {
+    // sound countrol
+    if(soundEndflag === "1") {
+      soundControl("end",""); 
+    }
     let resultText = ["大吉!!!!!","吉!!!!","中吉!!!","小吉!!","末吉!","凶。。"];
     let resultColor = ["#ff0000","#c71585","#ff1493","#ff69b4","#ff8c00","#1e90ff"];
     let resultFontSize = ["90px","80px","70px","60px","50px","40px"];
@@ -50,15 +54,19 @@ btn1.addEventListener("click",
     let resultMaxSize = [30,30,20,15,20,20];
     let resultImage = ["img/star.png","img/sakura_hanabira.png","img/sakura_hanabira.png","img/sakura_hanabira.png","img/leaf.png","img/snowflakes.png"];
     let resultSound = ["sound/omikuji_sound1.mp3","sound/omikuji_sound2.mp3","sound/omikuji_sound2.mp3","sound/omikuji_sound2.mp3","sound/omikuji_sound2.mp3","sound/omikuji_sound3.mp3",];
-
+    
     let n = Math.floor(Math.random() * resultText.length);
     omikujiText.textContent = resultText[n];
     omikujiText.style.color = resultColor[n];
     omikujiText.style.fontSize = resultFontSize[n];
-
+    // sound control
+    w_sound = resultSound[n];
+    soundControl("start", w_sound); //サウンド
+    soundEndflag = "1";
+    
     // snowfall stop
     $(document).snowfall("clear");
-
+    
     setTimeout(
       function () {
         // jQueryのsnowfall
@@ -73,14 +81,21 @@ btn1.addEventListener("click",
         });
       }, 
       "200"
-    );
-
-    // HTML5のaudioは一旦playをすると終了するまで音が鳴らない仕様である。
-    // これではクリックを連続で行った場合に、現在再生されている音が終了するまで
-    // 次の音が鳴らないため「currentTime」で開始時間をリセットする。
-    let music = new Audio(resultSound[n]);
-    music.currentTime = 0;
-    music.play();  // 再生
+      );
 
   }, false
 );
+
+// sound control
+let w_sound
+let music
+function soundControl(status, w_sound){
+  if(status === "start") {
+      music = new Audio(w_sound);
+      music.currentTime = 0;
+      music.play();
+  } else if(status === "end") {
+      music.pause();
+      music.currentTime = 0;
+  }
+}

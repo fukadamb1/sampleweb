@@ -60,7 +60,7 @@ btn1.addEventListener("click",
     //     btn1.style.fontSize = "20px";
     //     break;
     // }
-
+    btn1.style.transition = "1s"; //fukada-add
     let resultText = ["大吉!!!!!","吉!!!!","中吉!!!","小吉!!","末吉!","凶。。"];
     let resultColor = ["#ff0000","#c71585","#ff1493","#ff69b4","#ff8c00","#1e90ff"];
     let resultFontSize = ["55px","50px","45px","40px","35px","30px"];
